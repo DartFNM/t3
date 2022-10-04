@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="ManagedBass" Version="3.1.0" />
     <PackageReference Include="ManagedBass.Wasapi" Version="3.1.0" />
+    <PackageReference Include="muParserNET.Win" Version="1.0.1" />
     <PackageReference Include="NAudio" Version="2.1.0"></PackageReference>
 
     <PackageReference Include="Rug.Osc" Version="1.2.5">
