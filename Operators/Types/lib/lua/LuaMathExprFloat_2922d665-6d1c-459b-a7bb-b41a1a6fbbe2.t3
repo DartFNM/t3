@@ -1,0 +1,41 @@
+{
+  "Name": "LuaMathExprFloat",
+  "Id": "2922d665-6d1c-459b-a7bb-b41a1a6fbbe2",
+  "Namespace": "lib.lua",
+  "Inputs": [
+    {
+      "Id": "72857c83-f68f-4675-8d56-9b3d37d8d506"/*Expression*/,
+      "DefaultValue": "t"
+    },
+    {
+      "Id": "3b2b4c06-20c8-46da-b33d-633f5d21e9b0"/*t_mode*/,
+      "DefaultValue": 0
+    },
+    {
+      "Id": "21268241-579f-454c-8e11-b64a78c5fc41"/*a0*/,
+      "DefaultValue": 0.0
+    },
+    {
+      "Id": "3e0be1b0-4d4d-4d9e-9cf3-e84e66dd71b7"/*a1*/,
+      "DefaultValue": 0.0
+    },
+    {
+      "Id": "edff0a8c-a0df-43ae-a29b-c98f2c17393c"/*a2*/,
+      "DefaultValue": 0.0
+    },
+    {
+      "Id": "8ec7b251-6467-4649-9fb7-512429e4614c"/*a3*/,
+      "DefaultValue": 0.0
+    },
+    {
+      "Id": "68625cb7-d671-400a-a203-37d109f8c995"/*a4*/,
+      "DefaultValue": 0.0
+    },
+    {
+      "Id": "1755dab6-4569-45fa-a322-713c4fc13851"/*a5*/,
+      "DefaultValue": 0.0
+    }
+  ],
+  "Children": [],
+  "Connections": []
+}

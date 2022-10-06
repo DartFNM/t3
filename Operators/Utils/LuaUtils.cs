@@ -15,6 +15,13 @@ namespace T3.Operators.Utils
 
     public static class LuaUtils
     {
+        public static bool IsValid(this LuaVM vm)
+        {
+            if (vm == null)
+                return false;
+            return vm.IsValid;
+        }
+
         public static void DeclareMathFuncs(LuaVM vm)
         {
             const string LibName = "T3Math.lua";
@@ -181,7 +188,6 @@ end
         double LastCompilationTIme = double.NaN;
         double LastRuntimeError = double.NaN;
 
-
         public void Dispose()
         {
             LocalVM?.Dispose();
@@ -197,7 +203,8 @@ end
                 LocalVM = null;
             }
             this.LocalVM = new LuaVM(); // create our own Virtual Machine
-            LuaUtils.DeclareMathFuncs(this.CurrentVM);
+            LuaUtils.DeclareMathFuncs(this.LocalVM);
+            this.CurrentVM = this.LocalVM;
         }
 
 
@@ -213,8 +220,9 @@ end
                     return false;
                 }
 
-                if (PrevExprStr == strScript && this.CurrentVM != null)
+                if (PrevExprStr == strScript && this.CurrentVM.IsValid() )
                 {
+                    // TRY TO RECOMPILE
                     if (!WasCompileError && Compiled != null)
                         return true;
 
@@ -236,7 +244,7 @@ end
                 WasCompileError = false;
                 LastCompilationTIme = curTime;
 
-                if (overrideVM == null && this.LocalVM == null)
+                if ( !overrideVM.IsValid() && this.LocalVM == null)
                 {
                     CreateLocalVM();
                 }
