@@ -1,5 +1,5 @@
 {
-  "Id": "4ebfa0e6-bfbc-499d-9dec-20ec455b3178"/*MathExprFloat*/,
+  "Id": "4ebfa0e6-bfbc-499d-9dec-20ec455b3178"/*MuMathExprFloat*/,
   "Description": "Variables:\nt - time\n\"a0 ... a5\" - Input parameters\n\nExample:\nsin( 2*pi + t ) + a4",
   "InputUis": [
     {

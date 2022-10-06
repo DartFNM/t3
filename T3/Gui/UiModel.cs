@@ -107,6 +107,11 @@ namespace T3.Gui
             RegisterUiType(typeof(MeshBuffers), new FallBackUiProperties(), () => new FallbackInputUi<MeshBuffers>(),
                            () => new ValueOutputUi<MeshBuffers>());
 
+            RegisterUiType(typeof(T3.Core.DataTypes.LuaVM), new FloatUiProperties(),
+               () => new FallbackInputUi<T3.Core.DataTypes.LuaVM>(),
+               () => new ValueOutputUi<T3.Core.DataTypes.LuaVM>());
+
+
             // sharpdx types
             RegisterUiType(typeof(SharpDX.Int3), new Size2UiProperties(), () => new Int3InputUi(), () => new ValueOutputUi<Int3>());
             RegisterUiType(typeof(SharpDX.Size2), new Size2UiProperties(), () => new Size2InputUi(), () => new ValueOutputUi<Size2>());

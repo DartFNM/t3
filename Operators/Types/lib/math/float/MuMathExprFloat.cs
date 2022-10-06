@@ -14,7 +14,7 @@ using muParserNET;
 
 namespace T3.Operators.Types.Id_4ebfa0e6_bfbc_499d_9dec_20ec455b3178
 {
-    public class MathExprFloat : Instance<MathExprFloat>
+    public class MuMathExprFloat : Instance<MuMathExprFloat>
     {
         [Output(Guid = "482041bd-0577-4d91-8d57-ec7b70c52ce1", DirtyFlagTrigger = DirtyFlagTrigger.Animated)]
         public readonly Slot<float> Result = new Slot<float>();
@@ -48,7 +48,7 @@ namespace T3.Operators.Types.Id_4ebfa0e6_bfbc_499d_9dec_20ec455b3178
         private bool WasError = false;
 
 
-        public MathExprFloat()
+        public MuMathExprFloat()
         {
             Result.UpdateAction = Update;
         }

@@ -1,5 +1,5 @@
 {
-  "Name": "MathExprFloat",
+  "Name": "MuMathExprFloat",
   "Id": "4ebfa0e6-bfbc-499d-9dec-20ec455b3178",
   "Namespace": "lib.math.float",
   "Inputs": [

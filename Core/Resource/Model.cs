@@ -284,6 +284,9 @@ namespace T3.Core
                          () => new InputValue<Texture3dWithViews>(new Texture3dWithViews()));
             RegisterType(typeof(MeshBuffers), "MeshBuffers",
                          () => new InputValue<MeshBuffers>(null));
+            // lua
+            RegisterType(typeof(T3.Core.DataTypes.LuaVM), "LuaVM",
+                         () => new InputValue<T3.Core.DataTypes.LuaVM>());
 
             // sharpdx types
             RegisterType(typeof(SharpDX.Direct3D.PrimitiveTopology), "PrimitiveTopology",
