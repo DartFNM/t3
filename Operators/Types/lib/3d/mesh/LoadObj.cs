@@ -39,10 +39,12 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
                 _meshBufferCache.Clear();
             }
             
-            if (path != _lastFilePath || SortVertices.DirtyFlag.IsDirty || Math.Abs(scaleFactor - _scaleFactor) > 0.001f)
+            if (_sourceFileChanged ||  path != _lastFilePath || SortVertices.DirtyFlag.IsDirty || Math.Abs(scaleFactor - _scaleFactor) > 0.001f)
             {
-                _scaleFactor = scaleFactor;
+                ResourceFileWatcher.AddFileHook(path, FileChangedHandler);
+                _sourceFileChanged = false;
                 
+                _scaleFactor = scaleFactor;
                 _description = System.IO.Path.GetFileName(path);
 
                 if (useGpuCaching)
@@ -67,7 +69,7 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
 
                 var resourceManager = ResourceManager.Instance();
 
-                var newData = new DataSet();
+                var newData = new MeshDataSet();
 
                 var reversedLookup = new int[mesh.DistinctDistinctVertices.Count];
 
@@ -94,10 +96,10 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
                     }
 
                     newData.VertexBufferWithViews.Buffer = newData.VertexBuffer;
-                    resourceManager.SetupStructuredBuffer(newData.VertexBufferData, PbrVertex.Stride * verticesCount, PbrVertex.Stride,
+                    ResourceManager.SetupStructuredBuffer(newData.VertexBufferData, PbrVertex.Stride * verticesCount, PbrVertex.Stride,
                                                           ref newData.VertexBuffer);
-                    resourceManager.CreateStructuredBufferSrv(newData.VertexBuffer, ref newData.VertexBufferWithViews.Srv);
-                    resourceManager.CreateStructuredBufferUav(newData.VertexBuffer, UnorderedAccessViewBufferFlags.None, ref newData.VertexBufferWithViews.Uav);
+                    ResourceManager.CreateStructuredBufferSrv(newData.VertexBuffer, ref newData.VertexBufferWithViews.Srv);
+                    ResourceManager.CreateStructuredBufferUav(newData.VertexBuffer, UnorderedAccessViewBufferFlags.None, ref newData.VertexBufferWithViews.Uav);
                 }
 
                 // Create Index buffer
@@ -121,9 +123,9 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
 
                     newData.IndexBufferWithViews.Buffer = newData.IndexBuffer;
                     const int stride = 3 * 4;
-                    resourceManager.SetupStructuredBuffer(newData.IndexBufferData, stride * faceCount, stride, ref newData.IndexBuffer);
-                    resourceManager.CreateStructuredBufferSrv(newData.IndexBuffer, ref newData.IndexBufferWithViews.Srv);
-                    resourceManager.CreateStructuredBufferUav(newData.IndexBuffer, UnorderedAccessViewBufferFlags.None, ref newData.IndexBufferWithViews.Uav);
+                    ResourceManager.SetupStructuredBuffer(newData.IndexBufferData, stride * faceCount, stride, ref newData.IndexBuffer);
+                    ResourceManager.CreateStructuredBufferSrv(newData.IndexBuffer, ref newData.IndexBufferWithViews.Srv);
+                    ResourceManager.CreateStructuredBufferUav(newData.IndexBuffer, UnorderedAccessViewBufferFlags.None, ref newData.IndexBufferWithViews.Uav);
                 }
 
                 if (useGpuCaching)
@@ -131,12 +133,18 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
                     _meshBufferCache[path] = newData;
                 }
 
-                _data = newData;
+                _meshData = newData;
             }
 
-            _data.DataBuffers.VertexBuffer = _data.VertexBufferWithViews;
-            _data.DataBuffers.IndicesBuffer = _data.IndexBufferWithViews;
-            Data.Value = _data.DataBuffers;
+            _meshData.DataBuffers.VertexBuffer = _meshData.VertexBufferWithViews;
+            _meshData.DataBuffers.IndicesBuffer = _meshData.IndexBufferWithViews;
+            Data.Value = _meshData.DataBuffers;
+        }
+
+        private void FileChangedHandler()
+        {
+            Path.DirtyFlag.Invalidate();
+            _sourceFileChanged = true;
         }
 
         public string GetDescriptiveString()
@@ -144,11 +152,12 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
             return _description;
         }
 
+        private bool _sourceFileChanged;
         private string _description;
         private string _lastFilePath;
-        private DataSet _data = new DataSet();
+        private MeshDataSet _meshData = new MeshDataSet();
 
-        private class DataSet
+        private class MeshDataSet
         {
             public readonly MeshBuffers DataBuffers = new();
 
@@ -161,7 +170,7 @@ namespace T3.Operators.Types.Id_be52b670_9749_4c0d_89f0_d8b101395227
             public readonly BufferWithViews IndexBufferWithViews = new();
         }
 
-        private static readonly Dictionary<string, DataSet> _meshBufferCache = new();
+        private static readonly Dictionary<string, MeshDataSet> _meshBufferCache = new();
 
         [Input(Guid = "7d576017-89bd-4813-bc9b-70214efe6a27")]
         public readonly InputSlot<string> Path = new();

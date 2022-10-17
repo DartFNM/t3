@@ -12,6 +12,17 @@ using Neo.IronLua;
 
 namespace T3.Operators.Utils
 {
+    namespace Lua
+    {
+        public enum TimeModes
+        {
+            FxTimeInBars, //=context.LocalFxTime (timeline_current_time + AppTime)
+            TimeLineTimeInBars, //=context.LocalTime (timeline_current_time)
+            FxTimeInSec,
+            TimeLineTimeInSec,
+        }
+    }
+
 
     public static class LuaUtils
     {
@@ -150,22 +161,22 @@ end
         }
 
 
-        public static double GetContextTime(TimeModes timeMode, EvaluationContext context)
+        public static double GetContextTime(Utils.Lua.TimeModes timeMode, EvaluationContext context)
         {
             double tVal = 0;
             switch (timeMode)
             {
                 default:
-                case TimeModes.FxTimeInBars:
+                case Lua.TimeModes.FxTimeInBars:
                     tVal = context.LocalFxTime; // timeline_current_time + AppTime
                     break;
-                case TimeModes.TimeLineTimeInBars:
+                case Lua.TimeModes.TimeLineTimeInBars:
                     tVal = context.LocalTime; // timeline_current_time
                     break;
-                case TimeModes.FxTimeInSec:
+                case Lua.TimeModes.FxTimeInSec:
                     tVal = context.LocalFxTime * 240.0 / context.Playback.Bpm;
                     break;
-                case TimeModes.TimeLineTimeInSec:
+                case Lua.TimeModes.TimeLineTimeInSec:
                     tVal = context.LocalTime * 240.0 / context.Playback.Bpm;
                     break;
             }

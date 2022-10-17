@@ -44,7 +44,8 @@ namespace T3.Gui.Graph
 
         public void SetComposition(List<Guid> childIdPath, ICanvas.Transition transition)
         {
-            // zoom timeline out if necessary
+            SelectableNodeMovement.Reset();
+            // Zoom timeline out if necessary
             if (transition == ICanvas.Transition.JumpOut)
             {
                 var primaryGraphWindow = GraphWindow.GetVisibleInstances().FirstOrDefault();
@@ -681,27 +682,15 @@ namespace T3.Gui.Graph
                 PasteClipboard();
             }
 
-            var selectedInputUis = GetSelectedInputUis().ToArray();
-            var selectedOutputUis = GetSelectedOutputUis().ToArray();
+            var selectedInputUis = GetSelectedInputUis().ToList();
+            var selectedOutputUis = GetSelectedOutputUis().ToList();
 
             if (ImGui.MenuItem("Delete",
                                shortcut: "Del", // dynamic assigned shortcut is too long
                                selected: false,
-                               enabled: someOpsSelected || selectedInputUis.Length > 0 || selectedOutputUis.Length > 0))
+                               enabled: someOpsSelected || selectedInputUis.Count > 0 || selectedOutputUis.Count > 0))
             {
-                DeleteSelectedElements();
-
-                if (selectedInputUis.Length > 0)
-                {
-                    var symbol = GetSelectedSymbol();
-                    NodeOperations.RemoveInputsFromSymbol(selectedInputUis.Select(entry => entry.Id).ToArray(), symbol);
-                }
-
-                if (selectedOutputUis.Length > 0)
-                {
-                    var symbol = GetSelectedSymbol();
-                    NodeOperations.RemoveOutputsFromSymbol(selectedOutputUis.Select(entry => entry.Id).ToArray(), symbol);
-                }
+                DeleteSelectedElements(selectedChildUis, selectedInputUis, selectedOutputUis);
             }
 
             if (ImGui.MenuItem("Duplicate",
@@ -843,12 +832,12 @@ namespace T3.Gui.Graph
 
         private bool _contextMenuIsOpen;
 
-        private void DeleteSelectedElements()
+        private void DeleteSelectedElements(List<SymbolChildUi> selectedChildUis = null, List <IInputUi> selectedInputUis = null, List<IOutputUi> selectedOutputUis = null)
         {
             var compositionSymbolUi = SymbolUiRegistry.Entries[CompositionOp.Symbol.Id];
             
             var commands = new List<ICommand>();
-            var selectedChildUis = GetSelectedChildUis();
+            selectedChildUis = selectedChildUis == null ? GetSelectedChildUis() : selectedChildUis;
             if (selectedChildUis.Any())
             {
                 var cmd = new DeleteSymbolChildrenCommand(compositionSymbolUi, selectedChildUis);
@@ -861,10 +850,16 @@ namespace T3.Gui.Graph
                 commands.Add(cmd);
             }
 
-            var selectedInputUis = NodeSelection.GetSelectedNodes<IInputUi>().ToList();
+            selectedInputUis ??= NodeSelection.GetSelectedNodes<IInputUi>().ToList();
             if (selectedInputUis.Count > 0)
             {
                 NodeOperations.RemoveInputsFromSymbol(selectedInputUis.Select(entry => entry.Id).ToArray(), CompositionOp.Symbol);
+            }
+
+            selectedOutputUis ??= NodeSelection.GetSelectedNodes<IOutputUi>().ToList();
+            if (selectedOutputUis.Count > 0)
+            {
+                NodeOperations.RemoveOutputsFromSymbol(selectedOutputUis.Select(entry => entry.Id).ToArray(), CompositionOp.Symbol);
             }
 
             var deleteCommand = new MacroCommand("Delete elements", commands);

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -24,6 +25,7 @@ using T3.Core.Operator;
 using T3.Core.Operator.Slots;
 using Color = SharpDX.Color;
 using Device = SharpDX.Direct3D11.Device;
+using Vector2 = System.Numerics.Vector2;
 
 namespace T3
 {
@@ -163,12 +165,19 @@ namespace T3
                               {
                                   Playback.Current.TimeInBars += 4;
                               }
-
+                              
+                              if (keyArgs.KeyCode == Keys.Space)
+                              {
+                                  Playback.Current.PlaybackSpeed = Math.Abs(Playback.Current.PlaybackSpeed) > 0.01f ? 0 : 1;
+                              }
+                              
                               if (keyArgs.KeyCode == Keys.Escape)
                               {
                                   Application.Exit();
                               }
                           };
+
+            form.MouseMove += MouseMoveHandler;
 
             // New RenderTargetView from the backbuffer
             _backBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);
@@ -325,9 +334,9 @@ namespace T3
                                          if (tex != null)
                                          {
                                              context.Rasterizer.State = rasterizerState;
-                                             if (resourceManager.Resources[FullScreenVertexShaderId] is VertexShaderResource vsr)
+                                             if (ResourceManager.ResourcesById[FullScreenVertexShaderId] is VertexShaderResource vsr)
                                                  context.VertexShader.Set(vsr.VertexShader);
-                                             if (resourceManager.Resources[FullScreenPixelShaderId] is PixelShaderResource psr)
+                                             if (ResourceManager.ResourcesById[FullScreenPixelShaderId] is PixelShaderResource psr)
                                                  context.PixelShader.Set(psr.PixelShader);
                                              var srv = new ShaderResourceView(device, tex);
                                              context.PixelShader.SetShaderResource(0, srv);
@@ -351,6 +360,17 @@ namespace T3
             context.Dispose();
             _swapChain.Dispose();
             factory.Dispose();
+        }
+
+        private static void MouseMoveHandler(object sender, MouseEventArgs e)
+        {
+            if (sender is not Form form)
+                return;
+            
+            var relativePosition = new Vector2((float)e.X / form.Size.Width,
+                                               (float)e.Y / form.Size.Height);
+
+            MouseInput.Set(relativePosition, (e.Button & MouseButtons.Left) != 0);
         }
 
         private static void HandleKeyDown(object sender, KeyEventArgs e)

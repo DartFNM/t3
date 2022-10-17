@@ -106,6 +106,11 @@ namespace T3.Core.Operator.Slots
                 Log.Warning("Type match during connection");
                 return;
             }
+            if (InputConnection.Count < index) // DART FIX:
+            {
+                Log.Warning("AddConnection Error index not valid");
+                return;
+            }
             InputConnection.Insert(index, (Slot<T>)sourceSlot);
         }
 

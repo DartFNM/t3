@@ -1,0 +1,106 @@
+{
+  "Name": "Pixelate",
+  "Id": "f906b3f6-515f-4856-beb8-a5b0bf0b8715",
+  "Namespace": "user.dart.imgfx",
+  "Inputs": [
+    {
+      "Id": "fe87b984-d039-4b9c-8ef9-960c50fcc4e5"/*Texture2d*/,
+      "DefaultValue": null
+    },
+    {
+      "Id": "11bc5f73-a8fa-473c-bb55-d1472ea28712"/*Size*/,
+      "DefaultValue": {
+        "X": 64.0,
+        "Y": 36.0
+      }
+    },
+    {
+      "Id": "520bacd4-6d13-4625-b37e-58cd0e948e9e"/*Shift*/,
+      "DefaultValue": {
+        "X": 0.0,
+        "Y": 0.0
+      }
+    }
+  ],
+  "Children": [
+    {
+      "Id": "3af1dcca-ebc5-450d-885c-6fc29d77dd11"/*_ImageFxShaderSetup2*/,
+      "SymbolId": "2b20afce-2b54-4bcc-ba0e-e456a0d92833",
+      "InputValues": [
+        {
+          "Id": "16dce9bc-02d9-48f8-b07e-94a9af48d27b"/*Source*/,
+          "Type": "System.String",
+          "Value": "Resources\\user\\dart\\imgfx\\pixelate.hlsl"
+        },
+        {
+          "Id": "c80d3700-ceb6-43d0-9ffd-f4854e67a41d"/*Wrap*/,
+          "Type": "SharpDX.Direct3D11.TextureAddressMode",
+          "Value": "Clamp"
+        }
+      ],
+      "Outputs": []
+    },
+    {
+      "Id": "4bf90fec-6705-40fd-aaba-f85a1fdd091f"/*Vector2ToFloat2*/,
+      "SymbolId": "0946c48b-85d8-4072-8f21-11d17cc6f6cf",
+      "InputValues": [],
+      "Outputs": []
+    },
+    {
+      "Id": "fdbb3d4f-9609-4fa0-aabc-6895da81947c"/*Vector2ToFloat2*/,
+      "SymbolId": "0946c48b-85d8-4072-8f21-11d17cc6f6cf",
+      "InputValues": [],
+      "Outputs": []
+    }
+  ],
+  "Connections": [
+    {
+      "SourceParentOrChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11",
+      "SourceSlotId": "36e01dc9-0680-4af5-9329-0ac6a5f78f8c",
+      "TargetParentOrChildId": "00000000-0000-0000-0000-000000000000",
+      "TargetSlotId": "2753ff7e-064e-4572-965a-52855b34bdf5"
+    },
+    {
+      "SourceParentOrChildId": "00000000-0000-0000-0000-000000000000",
+      "SourceSlotId": "fe87b984-d039-4b9c-8ef9-960c50fcc4e5",
+      "TargetParentOrChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11",
+      "TargetSlotId": "36abde68-0d79-4fb6-b8ce-ac8a27b66850"
+    },
+    {
+      "SourceParentOrChildId": "4bf90fec-6705-40fd-aaba-f85a1fdd091f",
+      "SourceSlotId": "1cee5adb-8c3c-4575-bdd6-5669c04d55ce",
+      "TargetParentOrChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11",
+      "TargetSlotId": "8e9b8826-5870-4db6-93c2-9fb469cfeec9"
+    },
+    {
+      "SourceParentOrChildId": "4bf90fec-6705-40fd-aaba-f85a1fdd091f",
+      "SourceSlotId": "305d321d-3334-476a-9fa3-4847912a4c58",
+      "TargetParentOrChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11",
+      "TargetSlotId": "8e9b8826-5870-4db6-93c2-9fb469cfeec9"
+    },
+    {
+      "SourceParentOrChildId": "fdbb3d4f-9609-4fa0-aabc-6895da81947c",
+      "SourceSlotId": "1cee5adb-8c3c-4575-bdd6-5669c04d55ce",
+      "TargetParentOrChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11",
+      "TargetSlotId": "8e9b8826-5870-4db6-93c2-9fb469cfeec9"
+    },
+    {
+      "SourceParentOrChildId": "fdbb3d4f-9609-4fa0-aabc-6895da81947c",
+      "SourceSlotId": "305d321d-3334-476a-9fa3-4847912a4c58",
+      "TargetParentOrChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11",
+      "TargetSlotId": "8e9b8826-5870-4db6-93c2-9fb469cfeec9"
+    },
+    {
+      "SourceParentOrChildId": "00000000-0000-0000-0000-000000000000",
+      "SourceSlotId": "11bc5f73-a8fa-473c-bb55-d1472ea28712",
+      "TargetParentOrChildId": "4bf90fec-6705-40fd-aaba-f85a1fdd091f",
+      "TargetSlotId": "36f14238-5bb8-4521-9533-f4d1e8fb802b"
+    },
+    {
+      "SourceParentOrChildId": "00000000-0000-0000-0000-000000000000",
+      "SourceSlotId": "520bacd4-6d13-4625-b37e-58cd0e948e9e",
+      "TargetParentOrChildId": "fdbb3d4f-9609-4fa0-aabc-6895da81947c",
+      "TargetSlotId": "36f14238-5bb8-4521-9533-f4d1e8fb802b"
+    }
+  ]
+}

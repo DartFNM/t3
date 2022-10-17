@@ -168,7 +168,14 @@ namespace T3.Gui.Interaction
                                 _editValue = _startValue;
                         }
 
-                        _editValue = Evaluate(_jogDialText);
+                        var valid = Evaluate(_jogDialText, ref _editValue);
+
+                        // If the value is invalid, just revert it to what it was previously
+                        if (!valid)
+                        {
+                            _editValue = _startValue;
+                            _jogDialText = value.ToString();
+                        }
                         break;
                 }
 
@@ -279,7 +286,7 @@ namespace T3.Gui.Interaction
         private static int _lastMaxTabIndex;
         private static int _tabFocusIndex = -1; // if not -1 tries to set keyboard focus to input field.  
 
-        private static double Evaluate(string expression)
+        private static bool Evaluate(string expression, ref double editValue)
         {
             try
             {
@@ -287,11 +294,17 @@ namespace T3.Gui.Interaction
                 table.Columns.Add("expression", typeof(string), expression);
                 var row = table.NewRow();
                 table.Rows.Add(row);
-                return double.Parse((string)row["expression"]);
+                var newValue = double.Parse((string)row["expression"]);
+                
+                if (double.IsNaN(newValue) || double.IsInfinity(newValue))
+                    return false;
+                
+                editValue = newValue;
+                return true;
             }
             catch
             {
-                return float.NaN;
+                return false;
             }
         }
 
@@ -390,6 +403,7 @@ namespace T3.Gui.Interaction
 
         private static string _numberFormat = "{0:0.000}";
         private static double _timeOpened;
+        private const double DefaultValue = 0.0;
 
         /// <summary>
         /// This is a horrible attempt to work around imguis current limitation that button elements can't have a tab focus

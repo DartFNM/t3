@@ -40,7 +40,7 @@ namespace T3.Operators.Types.Id_5fa96817_4560_4362_8e75_63da634315fd
         [Input(Guid = "10000002-0000-0000-0000-000000000000")]
         public readonly InputSlot<bool> ResetVM = new();
 
-        [Input(Guid = "10000003-0000-0000-0000-000000000000")]
+        [Input(Guid = "10000003-0000-0000-0000-000000000000", MappedType = typeof(Utils.Lua.TimeModes))]
         public readonly InputSlot<int> t_mode = new InputSlot<int>();
 
         [Input(Guid = "10000004-0000-0000-0000-000000000000")]
@@ -61,10 +61,16 @@ namespace T3.Operators.Types.Id_5fa96817_4560_4362_8e75_63da634315fd
         [Input(Guid = "10000005-0004-0000-0000-000000000000")]
         public readonly InputSlot<float> a4 = new InputSlot<float>();
 
-        [Input(Guid = "10000005-0005-0000-0000-000000000000", MappedType = typeof(LuaUtils.TimeModes))]
+        [Input(Guid = "10000005-0005-0000-0000-000000000000")]
         public readonly InputSlot<float> a5 = new InputSlot<float>();
 
-
+//         public enum TimeModes
+//         {
+//             FxTimeInBars, //=context.LocalFxTime (timeline_current_time + AppTime)
+//             TimeLineTimeInBars, //=context.LocalTime (timeline_current_time)
+//             FxTimeInSec,
+//             TimeLineTimeInSec,
+//        
         CompiledScript CompScript = new();
         private bool _reset = false;
 
@@ -91,7 +97,7 @@ namespace T3.Operators.Types.Id_5fa96817_4560_4362_8e75_63da634315fd
 
         private void Update(EvaluationContext context)
         {
-            LuaUtils.TimeModes timeMode = (LuaUtils.TimeModes)this.t_mode.GetValue(context);
+            Utils.Lua.TimeModes timeMode = (Utils.Lua.TimeModes)this.t_mode.GetValue(context);
             double tVal = LuaUtils.GetContextTime(timeMode, context);
 
             LuaVM inVM = this.InputVM.GetValue(context);

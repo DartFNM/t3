@@ -1,0 +1,1 @@
+start T3\bin\Debug\net5.0-windows\t3.exe

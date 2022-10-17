@@ -1,0 +1,74 @@
+{
+  "Id": "f906b3f6-515f-4856-beb8-a5b0bf0b8715"/*Pixelate*/,
+  "Description": "Pixelize the incoming image similar to MosicEffect",
+  "InputUis": [
+    {
+      "InputId": "fe87b984-d039-4b9c-8ef9-960c50fcc4e5"/*Texture2d*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -8.08049,
+        "Y": 292.35626
+      }
+    },
+    {
+      "InputId": "11bc5f73-a8fa-473c-bb55-d1472ea28712"/*Size*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": 32.025677,
+        "Y": 573.3099
+      }
+    },
+    {
+      "InputId": "520bacd4-6d13-4625-b37e-58cd0e948e9e"/*Shift*/,
+      "Position": {
+        "X": 32.025677,
+        "Y": 618.3099
+      }
+    }
+  ],
+  "SymbolChildUis": [
+    {
+      "ChildId": "3af1dcca-ebc5-450d-885c-6fc29d77dd11"/*_ImageFxShaderSetup2*/,
+      "Style": "Resizable",
+      "Size": {
+        "X": 134.97804,
+        "Y": 481.95227
+      },
+      "Position": {
+        "X": 581.6164,
+        "Y": 395.31955
+      }
+    },
+    {
+      "ChildId": "4bf90fec-6705-40fd-aaba-f85a1fdd091f"/*Vector2ToFloat2*/,
+      "Size": {
+        "X": 110.0,
+        "Y": 36.0
+      },
+      "Position": {
+        "X": 257.16312,
+        "Y": 512.5493
+      }
+    },
+    {
+      "ChildId": "fdbb3d4f-9609-4fa0-aabc-6895da81947c"/*Vector2ToFloat2*/,
+      "Size": {
+        "X": 110.0,
+        "Y": 36.0
+      },
+      "Position": {
+        "X": 258.35733,
+        "Y": 721.27026
+      }
+    }
+  ],
+  "OutputUis": [
+    {
+      "OutputId": "2753ff7e-064e-4572-965a-52855b34bdf5"/*Output*/,
+      "Position": {
+        "X": 939.8677,
+        "Y": 642.9786
+      }
+    }
+  ]
+}
