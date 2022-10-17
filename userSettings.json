@@ -1,0 +1,114 @@
+{
+  "OperatorViewSettings": {
+    "12d48d5a-b8f4-4e08-8d79-4438328662f0": {
+      "Scale": {
+        "X": 0.5896021,
+        "Y": 0.5896021
+      },
+      "Scroll": {
+        "X": -824.29224,
+        "Y": -920.8499
+      }
+    },
+    "f679d007-c739-4770-8404-72b5ab97de92": {
+      "Scale": {
+        "X": 0.5731879,
+        "Y": 0.5731879
+      },
+      "Scroll": {
+        "X": -178.2674,
+        "Y": -1130.3027
+      }
+    },
+    "4bf14ad7-d47c-43a0-8ea1-b80c6c3b158f": {
+      "Scale": {
+        "X": 1.5142857,
+        "Y": 1.5142857
+      },
+      "Scroll": {
+        "X": -276.41507,
+        "Y": -133.20758
+      }
+    },
+    "bde0e71d-9cf2-46fb-80e0-6e0fcc1c437b": {
+      "Scale": {
+        "X": 1.442659,
+        "Y": 1.442659
+      },
+      "Scroll": {
+        "X": 3818.3044,
+        "Y": 1673.096
+      }
+    },
+    "a4d1fc5e-c3f4-42ae-8555-e332aa4807fb": {
+      "Scale": {
+        "X": 0.26856178,
+        "Y": 0.26856178
+      },
+      "Scroll": {
+        "X": -1486.5151,
+        "Y": -1380.2736
+      }
+    },
+    "86dc57d3-7322-4829-99b6-4e8c7b772e4c": {
+      "Scale": {
+        "X": 1.108064,
+        "Y": 1.108064
+      },
+      "Scroll": {
+        "X": -84.67603,
+        "Y": 168.8195
+      }
+    },
+    "660bb2f9-03c8-486e-8f19-f914e422970c": {
+      "Scale": {
+        "X": 0.8120385,
+        "Y": 0.8120385
+      },
+      "Scroll": {
+        "X": -292.21515,
+        "Y": 533.3628
+      }
+    }
+  },
+  "LastOpsForWindows": {
+    "Graph##1": "ff5dce99-697e-4002-9340-fc8e674e19c6"
+  },
+  "HoverMode": "Live",
+  "AudioMuted": false,
+  "ShowThumbnails": true,
+  "ShowMainMenu": true,
+  "ShowTitleAndDescription": true,
+  "ShowToolbar": true,
+  "ShowTimeline": true,
+  "ShowMiniMap": false,
+  "UiScaleFactor": 1.0,
+  "FullScreen": true,
+  "ShowGraphOverContent": false,
+  "WindowLayoutIndex": 0,
+  "EnableIdleMotion": true,
+  "WarnBeforeLibEdit": false,
+  "SmartGroupDragging": false,
+  "ShowExplicitTextureFormatInOutputWindow": false,
+  "UseArcConnections": true,
+  "SnapStrength": 5.0,
+  "UseJogDialControl": false,
+  "ScrollSmoothing": 0.06,
+  "TooltipDelay": 1.2,
+  "ClickThreshold": 5.0,
+  "KeyboardScrollAcceleration": 2.5,
+  "VariationLiveThumbnails": true,
+  "VariationHoverPreview": true,
+  "UserName": "fenomen",
+  "EnableAutoBackup": true,
+  "GizmoSize": 100.0,
+  "SwapMainAnd2ndWindowsWhenFullscreen": false,
+  "EnableStartupConsistencyCheck": true,
+  "TimeRasterDensity": 1.0,
+  "SpaceMouseRotationSpeedFactor": 1.0,
+  "SpaceMouseMoveSpeedFactor": 1.0,
+  "SpaceMouseDamping": 0.5,
+  "TimeDisplayMode": "F60",
+  "Bookmarks": [],
+  "GradientPresets": []
+}
