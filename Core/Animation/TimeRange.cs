@@ -1,4 +1,5 @@
 ﻿using System;
+using T3.Core.Utils;
 
 namespace T3.Core.Animation
 {
@@ -37,7 +38,7 @@ namespace T3.Core.Animation
             }
         }
 
-        public static TimeRange Undefined = new TimeRange(float.PositiveInfinity, float.NegativeInfinity);
+        public static TimeRange Undefined = new(float.PositiveInfinity, float.NegativeInfinity);
 
 
 

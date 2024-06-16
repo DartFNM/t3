@@ -9,12 +9,12 @@
       "SymbolId": "371d72b8-69d4-4ced-beda-271386ad2fd6",
       "InputValues": [
         {
-          "Id": "ef02525a-3a75-4ae7-bc01-7581efeda246"/*Scale*/,
+          "Id": "ef02525a-3a75-4ae7-bc01-7581efeda246"/*VolumeScale*/,
           "Type": "System.Single",
           "Value": 0.71
         },
         {
-          "Id": "1b762425-c35a-4ba0-bbed-71d6c42a082b"/*Rotate*/,
+          "Id": "1b762425-c35a-4ba0-bbed-71d6c42a082b"/*VolumeRotate*/,
           "Type": "System.Numerics.Vector3",
           "Value": {
             "X": 0.0,
@@ -100,7 +100,13 @@
     {
       "Id": "9a6833f1-9da7-4c06-9688-a2f315d88a2e"/*VisualizePoints*/,
       "SymbolId": "37bdbafc-d14c-4b81-91c3-8f63c3b63812",
-      "InputValues": [],
+      "InputValues": [
+        {
+          "Id": "d2472768-dd40-436f-af1b-7359289b5118"/*ShowIndices*/,
+          "Type": "System.Boolean",
+          "Value": false
+        }
+      ],
       "Outputs": []
     },
     {
@@ -110,7 +116,7 @@
       "Outputs": []
     },
     {
-      "Id": "209b3b9f-72a6-468d-9c02-a97d6fd24e2c"/*PointsOnSphere*/,
+      "Id": "209b3b9f-72a6-468d-9c02-a97d6fd24e2c"/*SpherePoints*/,
       "SymbolId": "1a241222-200b-417d-a8c7-131e3b48cc36",
       "InputValues": [
         {
@@ -211,7 +217,7 @@
       "Outputs": []
     },
     {
-      "Id": "9281cdfd-15cb-4f78-ab1b-ff82b0806e71"/*AnimValue*/,
+      "Id": "9281cdfd-15cb-4f78-ab1b-ff82b0806e71"/*_AnimValueOld*/,
       "SymbolId": "c5e39c67-256f-4cb9-a635-b62a0d9c796c",
       "InputValues": [
         {
@@ -233,7 +239,7 @@
       "Outputs": []
     },
     {
-      "Id": "542b5f68-d4ed-41c1-98dc-d14e8b79868a"/*AnimValue*/,
+      "Id": "542b5f68-d4ed-41c1-98dc-d14e8b79868a"/*_AnimValueOld*/,
       "SymbolId": "c5e39c67-256f-4cb9-a635-b62a0d9c796c",
       "InputValues": [
         {
@@ -274,7 +280,7 @@
       "Outputs": []
     },
     {
-      "Id": "24188c50-3e1a-4880-9999-5f573de177e6"/*String*/,
+      "Id": "24188c50-3e1a-4880-9999-5f573de177e6"/*AString*/,
       "SymbolId": "5880cbc3-a541-4484-a06a-0e6f77cdbe8e",
       "InputValues": [
         {
@@ -286,7 +292,7 @@
       "Outputs": []
     },
     {
-      "Id": "eae1dcc9-5f4f-4ea9-9abe-2beccea1b2d7"/*GetStringPart*/,
+      "Id": "eae1dcc9-5f4f-4ea9-9abe-2beccea1b2d7"/*PickStringPart*/,
       "SymbolId": "7baaa83d-5c09-42a0-b7bc-35dbcfa5156d",
       "InputValues": [],
       "Outputs": []
@@ -314,14 +320,14 @@
           }
         },
         {
-          "Id": "82cc31ff-3307-4b6d-be70-16e471c2ffc9"/*HorizontalAlign*/,
-          "Type": "System.Int32",
-          "Value": 0
-        },
-        {
           "Id": "50c9ab21-39f4-4e92-b5a7-ad9e60ae6ec3"/*FontPath*/,
           "Type": "System.String",
           "Value": "Resources\\fonts\\Roboto-Light.fnt"
+        },
+        {
+          "Id": "82cc31ff-3307-4b6d-be70-16e471c2ffc9"/*HorizontalAlign*/,
+          "Type": "System.Int32",
+          "Value": 0
         },
         {
           "Id": "7a76d5aa-1f44-4238-9333-7c2951becc31"/*EnableZTest*/,
@@ -365,7 +371,7 @@
       "Outputs": []
     },
     {
-      "Id": "269fdfaa-58b5-47ad-bfc0-0e47c61be4ec"/*AnimValue*/,
+      "Id": "269fdfaa-58b5-47ad-bfc0-0e47c61be4ec"/*_AnimValueOld*/,
       "SymbolId": "c5e39c67-256f-4cb9-a635-b62a0d9c796c",
       "InputValues": [
         {

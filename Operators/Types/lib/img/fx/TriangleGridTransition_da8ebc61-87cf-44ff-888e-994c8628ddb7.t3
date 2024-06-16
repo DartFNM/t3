@@ -23,10 +23,10 @@
     {
       "Id": "e97a432e-4996-41b0-8ae8-10c9f2d15bc4"/*Background*/,
       "DefaultValue": {
-        "X": 1.0,
-        "Y": 0.99999,
-        "Z": 0.99999,
-        "W": 0.804
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 0.0
       }
     },
     {
@@ -50,11 +50,11 @@
     },
     {
       "Id": "dab4e3df-aaa6-411c-83f6-e4c730b740ce"/*Rotation*/,
-      "DefaultValue": 0.0
+      "DefaultValue": 45.0
     },
     {
       "Id": "82a572d3-a39f-4ab3-bc17-804d3098d1c1"/*EffectWidth*/,
-      "DefaultValue": 0.0
+      "DefaultValue": 0.25
     },
     {
       "Id": "8d4e1265-8479-4525-adbc-fe5c31d9984a"/*EffectCenter*/,
@@ -66,30 +66,30 @@
     {
       "Id": "5baee095-f7fe-4a07-a01d-cbb2f3c2f3bc"/*Resolution*/,
       "DefaultValue": {
-        "Width": 0,
-        "Height": 0
+        "X": 0,
+        "Y": 0
       }
     },
     {
-      "Id": "d99d5c03-2563-41e6-9bfe-bd61a7fed37d"/*TestParam*/,
+      "Id": "d99d5c03-2563-41e6-9bfe-bd61a7fed37d"/*Scatter*/,
       "DefaultValue": 0.0
     }
   ],
   "Children": [
     {
-      "Id": "86f9b6cf-1e04-4958-bc9f-4ef6f5cc525d"/*Vector4ToFloat4*/,
+      "Id": "86f9b6cf-1e04-4958-bc9f-4ef6f5cc525d"/*Vector4Components*/,
       "SymbolId": "b15e4950-5c72-4655-84bc-c00647319030",
       "InputValues": [],
       "Outputs": []
     },
     {
-      "Id": "82047030-92cc-4372-b77e-e056fbb5a3c0"/*Vector4ToFloat4*/,
+      "Id": "82047030-92cc-4372-b77e-e056fbb5a3c0"/*Vector4Components*/,
       "SymbolId": "b15e4950-5c72-4655-84bc-c00647319030",
       "InputValues": [],
       "Outputs": []
     },
     {
-      "Id": "eb737384-491f-47d1-9fb7-a7aa046cd9e6"/*Vector2ToFloat2*/,
+      "Id": "eb737384-491f-47d1-9fb7-a7aa046cd9e6"/*Vector2Components*/,
       "SymbolId": "0946c48b-85d8-4072-8f21-11d17cc6f6cf",
       "InputValues": [],
       "Outputs": []
@@ -101,13 +101,13 @@
         {
           "Id": "7f14d0e3-1159-434d-b038-74644948937c"/*ShaderPath*/,
           "Type": "System.String",
-          "Value": "Resources\\lib\\img\\fx\\img-fx-TriangleGridTransition.hlsl"
+          "Value": "Resources\\lib\\img\\fx\\TriangleGridTransition.hlsl"
         }
       ],
       "Outputs": []
     },
     {
-      "Id": "11459d6e-e6e3-4972-90a8-5b37f057cb95"/*Vector2ToFloat2*/,
+      "Id": "11459d6e-e6e3-4972-90a8-5b37f057cb95"/*Vector2Components*/,
       "SymbolId": "0946c48b-85d8-4072-8f21-11d17cc6f6cf",
       "InputValues": [],
       "Outputs": []

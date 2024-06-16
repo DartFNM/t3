@@ -52,6 +52,9 @@ MidiInput_59a0458e-2f3a-4856-96cd-32936f783cc5.t3ui
 MouseInput.cs
 MouseInput_eff2ffff-dc39-4b90-9b1c-3c0a9a0108c6.t3
 MouseInput_eff2ffff-dc39-4b90-9b1c-3c0a9a0108c6.t3ui
+NdiInput.cs
+NdiInput_7567c3b0-9d91-40d2-899d-3a95b481d023.t3
+NdiInput_7567c3b0-9d91-40d2-899d-3a95b481d023.t3ui
 PixelShader.cs
 PixelShader_f7c625da-fede-4993-976c-e259e0ee4985.t3
 PixelShader_f7c625da-fede-4993-976c-e259e0ee4985.t3ui
@@ -67,6 +70,12 @@ SampleGradient_8211249d-7a26-4ad0-8d84-56da72a5c536.t3ui
 SoundInput.cs
 SoundInput_b72d968b-0045-408d-a2f9-5c739c692a66.t3
 SoundInput_b72d968b-0045-408d-a2f9-5c739c692a66.t3ui
+SpoutInput.cs
+SpoutInput_25307357-6f6c-45b1-a38d-de635510a845.t3
+SpoutInput_25307357-6f6c-45b1-a38d-de635510a845.t3ui
+SpoutOutput.cs
+SpoutOutput_13be1e3f-861d-4350-a94e-e083637b3e55.t3
+SpoutOutput_13be1e3f-861d-4350-a94e-e083637b3e55.t3ui
 String.cs
 String_5880cbc3-a541-4484-a06a-0e6f77cdbe8e.t3
 String_5880cbc3-a541-4484-a06a-0e6f77cdbe8e.t3ui

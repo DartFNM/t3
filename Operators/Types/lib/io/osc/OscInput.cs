@@ -4,12 +4,12 @@ using System.Collections.Generic;
 //using System.Windows.Forms;
 using Operators.Utils;
 using Rug.Osc;
-using T3.Core;
 using T3.Core.Animation;
 using T3.Core.Logging;
 using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
+using T3.Core.Utils;
 
 namespace T3.Operators.Types.Id_3a1d7ea0_5445_4df0_b08a_6596e53f815a 
 {
@@ -63,7 +63,7 @@ namespace T3.Operators.Types.Id_3a1d7ea0_5445_4df0_b08a_6596e53f815a
                 {
                     if (_teachingActive)
                     {
-                        Log.Debug($" connected to OSC address '{message.Address}'");
+                        Log.Debug($" connected to OSC address '{message.Address}'", this);
                         Address.TypedInputValue.Value = message.Address;
                         Address.Input.IsDefault = false;
                         Address.DirtyFlag.Invalidate();
@@ -127,7 +127,7 @@ namespace T3.Operators.Types.Id_3a1d7ea0_5445_4df0_b08a_6596e53f815a
             {
                 if (_printLogMessages)
                 {
-                    Log.Debug($"Received OSC: {msg.Address}  {msg}");
+                    Log.Debug($"Received OSC: {msg.Address}  {msg}", this);
                 }
 
                 var matchesAddress = msg.Address == _address;

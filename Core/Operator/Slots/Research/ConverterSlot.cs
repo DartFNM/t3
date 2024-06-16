@@ -1,6 +1,6 @@
 using System;
 
-namespace T3.Core.Operator.Slots
+namespace T3.Core.Operator.Slots.Research
 {
     public class ConverterSlot<TFrom, TTo> : Slot<TTo>
     {
@@ -9,7 +9,7 @@ namespace T3.Core.Operator.Slots
         public ConverterSlot(Slot<TFrom> sourceSlot, Func<TFrom, TTo> converterFunc)
         {
             UpdateAction = Update;
-            _defaultUpdateAction = UpdateAction;
+            _keepOriginalUpdateAction = UpdateAction;
             SourceSlot = sourceSlot;
             //var floatToInt = new Converter2<float, int>(f => (int)f);
             _converterFunc = converterFunc;

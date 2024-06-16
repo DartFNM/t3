@@ -1,9 +1,10 @@
 {
   "Id": "020573c5-acaa-442e-9b1b-01338b0f4b62"/*SwapBuffers*/,
-  "Description": "A helper that swaps two Structured buffers if set.\n",
+  "Description": "A helper that swaps two StructuredBuffers if set.",
   "InputUis": [
     {
       "InputId": "243160dd-c19d-48f2-b966-c9b4ee79c2d6"/*BufferAInput*/,
+      "Relevancy": "Required",
       "Position": {
         "X": -200.0,
         "Y": 0.0
@@ -11,6 +12,7 @@
     },
     {
       "InputId": "de95e30b-896e-4880-b940-82863554ce02"/*BufferBInput*/,
+      "Relevancy": "Required",
       "Position": {
         "X": -200.0,
         "Y": 45.0

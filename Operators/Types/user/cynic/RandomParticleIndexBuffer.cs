@@ -1,20 +1,16 @@
 using System;
 using System.Runtime.InteropServices;
-using SharpDX;
-using SharpDX.Direct3D11;
-using SharpDX.DXGI;
-using T3.Core;
 using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
-using Utilities = T3.Core.Utilities;
+using T3.Core.Resource;
 
 namespace T3.Operators.Types.Id_6fae395d_c3a0_4693_a3dc_8959cda5a92b
 {
     public class RandomParticleIndexBuffer : Instance<RandomParticleIndexBuffer>
     {
         [Output(Guid = "72f61c86-36bf-49cc-9263-0dcd9d617aa2")]
-        public readonly Slot<SharpDX.Direct3D11.Buffer> Buffer = new Slot<SharpDX.Direct3D11.Buffer>();
+        public readonly Slot<SharpDX.Direct3D11.Buffer> Buffer = new();
 
         public RandomParticleIndexBuffer()
         {
@@ -49,12 +45,12 @@ namespace T3.Operators.Types.Id_6fae395d_c3a0_4693_a3dc_8959cda5a92b
                 }
             }
 
-            ResourceManager.Instance().SetupStructuredBuffer(_data, ref Buffer.Value);
+            ResourceManager.SetupStructuredBuffer(_data, ref Buffer.Value);
         }
 
         private ParticleIndex[] _data;
 
         [Input(Guid = "26c21fa9-3788-42b5-a6ce-68f8907e98f3")]
-        public readonly InputSlot<int> Count = new InputSlot<int>();
+        public readonly InputSlot<int> Count = new();
     }
 }

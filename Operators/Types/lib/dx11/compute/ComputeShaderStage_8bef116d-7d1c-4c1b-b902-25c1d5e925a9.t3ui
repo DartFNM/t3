@@ -11,6 +11,7 @@
     },
     {
       "InputId": "180cae35-10e3-47f3-8191-f6ecea7d321c"/*Dispatch*/,
+      "Relevancy": "Required",
       "Position": {
         "X": 106.01553,
         "Y": 52.083496
@@ -45,7 +46,7 @@
       }
     },
     {
-      "InputId": "0105aca4-5fd5-40c8-82a5-e919bb7dd507"/*UavBufferCount*/,
+      "InputId": "0105aca4-5fd5-40c8-82a5-e919bb7dd507"/*UavBufferCounter*/,
       "Position": {
         "X": 106.01553,
         "Y": 352.0835

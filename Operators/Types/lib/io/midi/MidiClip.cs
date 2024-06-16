@@ -91,7 +91,7 @@ namespace T3.Operators.Types.Id_a3ceb788_4055_4556_961b_63b7221f93e7
             
             catch (Exception e)
             {
-                Log.Debug("Updating MidiClip failed:" + e.Message, SymbolChildId);
+                Log.Debug("Updating MidiClip failed:" + e.Message, this);
             }
         }
 
@@ -190,7 +190,7 @@ namespace T3.Operators.Types.Id_a3ceb788_4055_4556_961b_63b7221f93e7
                         valuesChanged = true;
 
                         if (_printLogMessages)
-                            Log.Debug($"{key}={value}");
+                            Log.Debug($"{key}={value}", this);
                         
                         break;
                     }

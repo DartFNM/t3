@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using T3.Core.Logging;
-using T3.Core.Operator;
 using T3.Core.Operator.Slots;
-
+using T3.Core.Resource;
 
 namespace T3.Core.DataTypes
 {

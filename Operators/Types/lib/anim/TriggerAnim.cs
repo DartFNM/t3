@@ -1,8 +1,9 @@
 using System;
-using T3.Core;
+using T3.Core.Animation;
 using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
+using T3.Core.Utils;
 
 namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
 {
@@ -11,9 +12,13 @@ namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
         [Output(Guid = "aac4ecbf-436a-4414-94c1-53d517a8e587", DirtyFlagTrigger = DirtyFlagTrigger.Animated)]
         public readonly Slot<float> Result = new();
 
+        [Output(Guid = "863C0A57-E893-4536-9EFE-6D001CB9D999", DirtyFlagTrigger = DirtyFlagTrigger.Animated)]
+        public readonly Slot<bool> HasCompleted = new();
+        
         public TriggerAnim()
         {
             Result.UpdateAction = Update;
+            HasCompleted.UpdateAction = Update;
         }
 
         private enum Directions
@@ -31,56 +36,112 @@ namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
             _shape = (Shapes)(int)Shape.GetValue(context).Clamp(0,Enum.GetNames(typeof(Shapes)).Length -1);
             _duration = Duration.GetValue(context);
             _delay = Delay.GetValue(context);
+
+            var timeMode = TimeMode.GetEnumValue<Times>(context);
+            var currentTime = timeMode switch
+                                  {
+                                      Times.PlayTime   => context.Playback.TimeInBars,
+                                      Times.AppRunTime => Playback.RunTimeInSecs,
+                                      _                => context.LocalFxTime
+                                  };
+
+            var animMode = AnimMode.GetEnumValue<AnimModes>(context);//   (AnimModes)AnimMode.GetValue(context).Clamp(0, Enum.GetNames(typeof(AnimModes)).Length -1);
+
+
             
-            
-            var animMode = (AnimModes)AnimMode.GetValue(context).Clamp(0, Enum.GetNames(typeof(AnimModes)).Length -1);
-            var newTrigger = Trigger.GetValue(context);
-            if (newTrigger != _trigger)
+            var triggered = Trigger.GetValue(context);
+            if (triggered != _trigger)
             {
-                if (newTrigger)
+                HasCompleted.Value = false;
+                _trigger = triggered;
+
+                if (animMode == AnimModes.ForwardAndBackwards)
                 {
-                    if (animMode == AnimModes.OnlyOnTrue || animMode == AnimModes.OnTrueAndFalse)
-                    {
-                        _currentDirection = Directions.Forward;
-                        _triggerTime = context.Playback.FxTimeInBars;
-                        if (animMode == AnimModes.OnlyOnTrue)
-                        {
-                            LastFraction = -_delay;
-                        }
-                    }
+                    _triggerTime = currentTime;
+                    _currentDirection = triggered ? Directions.Forward : Directions.Backwards;
+                    _startProgress = LastFraction;
                 }
                 else
                 {
-                    if (animMode == AnimModes.OnlyOnFalse || animMode == AnimModes.OnTrueAndFalse)
+                    if (triggered)
                     {
-                        _currentDirection = Directions.Backwards;
-                        _triggerTime = context.Playback.FxTimeInBars;
+                        if (animMode == AnimModes.OnlyOnTrue)
+                        {
+                            _triggerTime = currentTime;
+                            _currentDirection = Directions.Forward;
+                            LastFraction = -_delay;
+                        }
+                    }
+                    else
+                    {
                         if (animMode == AnimModes.OnlyOnFalse)
                         {
+                            _triggerTime = currentTime;
+                            _currentDirection = Directions.Backwards;
                             LastFraction = 1;
                         }
-
                     }
                 }
-                _trigger = newTrigger;
             }
 
-            LastFraction = (context.LocalFxTime - _triggerTime)/_duration; 
-            
-            if (_currentDirection == Directions.Forward)
+
+            if (animMode == AnimModes.ForwardAndBackwards)
             {
-                if(LastFraction >= 1)
+                var dp = (float)((currentTime - _triggerTime) / _duration);
+                switch (_currentDirection)
                 {
-                    LastFraction = 1;
-                    _currentDirection = Directions.None;
+                    case Directions.Forward:
+                    {
+                        LastFraction = _startProgress + dp;
+                        if (LastFraction >= 1)
+                        {
+                            HasCompleted.Value = true;
+                            LastFraction = 1;
+                            _currentDirection = Directions.None;
+                        }
+
+                        break;
+                    }
+                    case Directions.Backwards:
+                    {
+                        LastFraction = _startProgress - dp;
+                        if (LastFraction <= 0)
+                        {
+                            LastFraction = 0;
+                            _currentDirection = Directions.None;
+                        }
+
+                        break;
+                    }
                 }
             }
-            else if  (_currentDirection == Directions.Backwards)
+            else
             {
-                if (LastFraction <= 0)
+                switch (_currentDirection)
                 {
-                    LastFraction = 0;
-                    _currentDirection = Directions.None;
+                    case Directions.Forward:
+                    {
+                        LastFraction = (currentTime - _triggerTime + 0.00001f)/_duration;
+                        if(LastFraction >= 1)
+                        {
+                            LastFraction = 1;
+                            HasCompleted.Value = true;
+                            _currentDirection = Directions.None;
+                        }
+
+                        break;
+                    }
+                    case Directions.Backwards:
+                    {
+                        LastFraction =   1+( _triggerTime- currentTime )/_duration;
+                        if (LastFraction < 0)
+                        {
+                            LastFraction = 0;
+                            _currentDirection = Directions.None;
+                        }
+
+                        break;
+                    }
                 }
             }
             
@@ -115,7 +176,7 @@ namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
                 f => MathUtils.SmootherStep(0,1,f.Clamp(0,1)/2) *2   , //2: Easy In
                 f => MathUtils.SmootherStep(0,1,f.Clamp(0,1)/2 + 0.5f) *2 -1, //3: Easy Out
                 f => MathF.Sin(f.Clamp(0,1) * 40) * MathF.Pow(1-f.Clamp(0.0001f, 1),4) ,  //4: Shake
-                f => f<=0 ? 0 : (1-f.Clamp(0,1)), // 0: Kick
+                f => f<=0 ? 0 : (1-f.Clamp(0,1)), // 5: Kick
             };
         
         private bool _trigger;
@@ -126,6 +187,7 @@ namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
         private float _duration = 1;
         private float _delay;
 
+        private double _startProgress;
         public double LastFraction;
         
         public enum Shapes
@@ -143,7 +205,7 @@ namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
         {
             OnlyOnTrue,
             OnlyOnFalse,
-            OnTrueAndFalse,
+            ForwardAndBackwards,
         }
         
         private Directions _currentDirection = Directions.None;
@@ -172,5 +234,15 @@ namespace T3.Operators.Types.Id_95d586a2_ee14_4ff5_a5bb_40c497efde95
 
         [Input(Guid = "9bfd5ae3-9ca6-4f7b-b24b-f554ad4d0255")]
         public readonly InputSlot<float> Bias = new();
+        
+        [Input(Guid = "06E511D2-891A-4F81-B49E-327410A2CB95", MappedType = typeof(Times))]
+        public readonly InputSlot<int> TimeMode = new();
+        
+        private enum Times
+        {
+            LocalFxTime,
+            PlayTime,
+            AppRunTime,
+        }
     }
 }

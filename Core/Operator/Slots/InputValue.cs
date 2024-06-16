@@ -1,11 +1,12 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
-using Core.Resource;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using T3.Core.DataTypes;
+using T3.Core.Model;
+using T3.Core.Utils;
 
-namespace T3.Core.Operator
+namespace T3.Core.Operator.Slots
 {
     public abstract class InputValue
     {
@@ -33,6 +34,11 @@ namespace T3.Core.Operator
 
         public override InputValue Clone()
         {
+            if (Value is IEditableInputType xxx)
+            {
+                return new InputValue<T>((T)xxx.Clone());
+            }
+
             return new InputValue<T>(Value);
         }
 

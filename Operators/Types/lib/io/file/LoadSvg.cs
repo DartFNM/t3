@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Numerics;
-using SharpDX.Win32;
 using T3.Core.DataTypes;
 using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
@@ -12,8 +11,9 @@ using T3.Core.Operator.Slots;
 using Svg;
 using Svg.Pathing;
 using Svg.Transforms;
-using T3.Core;
 using T3.Core.Logging;
+using T3.Core.Resource;
+using T3.Core.Utils;
 using Point = T3.Core.DataTypes.Point;
 
 namespace T3.Operators.Types.Id_e8d94dd7_eb54_42fe_a7b1_b43543dd457e
@@ -21,7 +21,7 @@ namespace T3.Operators.Types.Id_e8d94dd7_eb54_42fe_a7b1_b43543dd457e
     public class LoadSvg : Instance<LoadSvg>
     {
         [Output(Guid = "e21e3843-7d63-4db2-9234-77664e872a0f")]
-        public readonly Slot<StructuredList> ResultList = new Slot<StructuredList>();
+        public readonly Slot<StructuredList> ResultList = new();
 
         public LoadSvg()
         {
@@ -40,7 +40,7 @@ namespace T3.Operators.Types.Id_e8d94dd7_eb54_42fe_a7b1_b43543dd457e
             var filepath = FilePath.GetValue(context);
             if (!File.Exists(filepath))
             {
-                Log.Debug($"File {filepath} doesn't exist");
+                Log.Debug($"File {filepath} doesn't exist", this);
                 return;
             }
             
@@ -98,6 +98,7 @@ namespace T3.Operators.Types.Id_e8d94dd7_eb54_42fe_a7b1_b43543dd457e
                         = (new Vector3(point.X, 1 - point.Y, 0) + centerOffset) * scale;
                     _pointListWithSeparator.TypedElements[startIndex + pathPointIndex].W = 1;
                     _pointListWithSeparator.TypedElements[startIndex + pathPointIndex].Orientation = Quaternion.Identity;
+                    _pointListWithSeparator.TypedElements[startIndex + pathPointIndex].Color = new Vector4(1.0f); // We need a better fix, maybe with the colors from the SVG file
                 }
 
                 // Calculate normals
@@ -139,7 +140,7 @@ namespace T3.Operators.Types.Id_e8d94dd7_eb54_42fe_a7b1_b43543dd457e
                 pointIndex++;
             }
 
-            Log.Debug($"Loaded svg {filepath} with {pointIndex} points");
+            Log.Debug($"Loaded svg {filepath} with {pointIndex} points", this);
 
             ResultList.Value = _pointListWithSeparator;
         }

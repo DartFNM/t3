@@ -2,6 +2,11 @@
 // #ifndef HASH_H
 // #define HASH_H
 
+#define _PRIME0 13331U
+#define _PRIME1  1345777U
+#define _PRIME2  98777177U
+
+
 //----------------------------------------------------------------------------------------
 //  1 out, 1 in...
 float hash11(float p)
@@ -103,6 +108,28 @@ float3 hash33u( uint3 x )
 }
 
 
+float4 hash41u( uint x )
+{
+    x *= _PRIME0;
+    const uint k = 1103515245U;  // GLIB C
+    x = ((x>>8U)^x)*k;
+    uint y = ((x>>8U)^x)*k;
+    uint z = ((y>>8U)^x)*k;
+    uint w = ((z>>8U)^y)*k;
+    uint4 i4 = uint4(x,y,z,w);
+    
+    return float4(i4)*(1.0/float(0xffffffffU));
+}
+
+float hash11u( uint x )
+{
+    x * _PRIME0;
+    const uint k = 1103515245U;  // GLIB C
+    x = ((x>>8U)^x)*k;
+    x = ((x>>8U)^x)*k;
+    
+    return float(x)*(1.0/float(0xffffffffU));
+}
 
 //----------------------------------------------------------------------------------------
 // 4 out, 1 in...
@@ -141,8 +168,6 @@ float4 hash44(float4 p4)
     p4 += dot(p4, p4.wzxy+33.33);
     return frac((p4.xxyz+p4.yzzw)*p4.zywx);
 }
-
-
 
 
 

@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Core.Logging;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using T3.Core;
 using T3.Core.Logging;
+using T3.Core.Model;
+using T3.Core.Resource;
 
-namespace StartEditor
+namespace T3.StartEditor
 {
     /// <summary>
     /// Rebuilds Operators.dll 
@@ -22,24 +22,22 @@ namespace StartEditor
         {
             Log.AddWriter(new ConsoleWriter());
             Log.AddWriter(FileWriter.CreateDefault());
-            
-            
+
             Log.Debug("Building operators.dll...");
             Log.Debug(" Collecting sources...");
-            var operatorAssemblySources = new List<string>();
-            
-            foreach (var sourceFile in Directory.GetFiles(Model.OperatorTypesFolder, "*.cs", SearchOption.AllDirectories))
-            {
-                Log.Debug($"+ {sourceFile}");
-                operatorAssemblySources.Add(File.ReadAllText(sourceFile));
-            }
 
-            operatorAssemblySources.Add(File.ReadAllText(@"Operators\Utils\AudioAnalysisResult.cs"));
-            operatorAssemblySources.Add(File.ReadAllText(@"Operators\Utils\BmFont.cs"));
-            operatorAssemblySources.Add(File.ReadAllText(@"Operators\Utils\GpuQuery.cs"));
-            operatorAssemblySources.Add(File.ReadAllText(@"Operators\Utils\ICameraPropertiesProvider.cs"));
-            operatorAssemblySources.Add(File.ReadAllText(@"Operators\Utils\MidiInConnectionManager.cs"));
-            operatorAssemblySources.Add(File.ReadAllText(@"Operators\Utils\OscConnectionManager.cs"));
+            var sourceFilePaths = new HashSet<string>();
+
+            sourceFilePaths.UnionWith(Directory.GetFiles(SymbolData.OperatorTypesFolder, "*.cs", SearchOption.AllDirectories).ToArray().ToArray());
+            sourceFilePaths.UnionWith(Directory.GetFiles(@"Operators\Utils\", "*.cs", SearchOption.AllDirectories));
+            sourceFilePaths.Add(@"Operators\Types\lib\dx11\draw\PickBlendMode.cs");
+
+            var operatorAssemblySources = new List<string>();
+            foreach (var filepath in sourceFilePaths)
+            {
+                Log.Debug($"+ {filepath}");
+                operatorAssemblySources.Add(File.ReadAllText(filepath));
+            }
 
             Log.Debug("Compiling...");
             var references = CompileSymbolsFromSource(".", operatorAssemblySources.ToArray());
@@ -47,7 +45,7 @@ namespace StartEditor
             Log.Debug("Starting Tooll 3");
             try
             {
-                var filepath = "T3.exe";
+                var filepath = "T3Editor.exe";
                 Process.Start(new ProcessStartInfo(filepath)
                                   {
                                       UseShellExecute = true,
@@ -62,15 +60,12 @@ namespace StartEditor
 
         private const string ReferenceOperatorAssemblyFilepath = "Operators_Reference.dll";
         private const string FinalOperatorAssemblyFilepath = "Operators.dll";
-        
-        
+
         private static List<MetadataReference> CompileSymbolsFromSource(string exportPath, params string[] sources)
         {
-            Assembly asm1 = typeof(Program).Assembly;
-            
-            asm1.ModuleResolve += ModuleResolveEventHandler;
-            
-            Assembly operatorsAssembly = Assembly.LoadFrom(ReferenceOperatorAssemblyFilepath);
+            AppDomain.CurrentDomain.AssemblyResolve += ModuleResolveEventHandler;
+
+            var operatorsAssembly = Assembly.LoadFrom(ReferenceOperatorAssemblyFilepath);
 
             var referencedAssembliesNames = operatorsAssembly.GetReferencedAssemblies(); // todo: ugly
             var referencedAssemblies = new List<MetadataReference>(referencedAssembliesNames.Length);
@@ -99,31 +94,32 @@ namespace StartEditor
                     Log.Debug($"Failed: {e} {e.Message} {e.InnerException?.Message}");
                 }
             }
-
+            
             var syntaxTrees = sources.Select(s => CSharpSyntaxTree.ParseText(s));
             var compilation = CSharpCompilation.Create("Operators",
                                                        syntaxTrees,
                                                        referencedAssemblies.ToArray(),
                                                        new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-                                                          .WithOptimizationLevel(OptimizationLevel.Release));
+                                                          .WithOptimizationLevel(OptimizationLevel.Release)
+                                                          .WithAllowUnsafe(true));
 
-            using (var dllStream = new FileStream(FinalOperatorAssemblyFilepath, FileMode.Create)) 
-            // using (var pdbStream = new FileStream(exportPath + Path.DirectorySeparatorChar + "Operators.pdb", FileMode.Create))
+            using (var dllStream = new FileStream(FinalOperatorAssemblyFilepath, FileMode.Create))
+                // using (var pdbStream = new FileStream(exportPath + Path.DirectorySeparatorChar + "Operators.pdb", FileMode.Create))
             using (var pdbStream = new MemoryStream())
             {
                 Log.Debug($" emitting compilation: {compilation}");
                 try
                 {
                     var emitResult = compilation.Emit(dllStream);
-                    
-                    Log.Debug($"compilation results of 'export':" );
+
+                    Log.Debug($"compilation results of 'export':");
 
                     if (!emitResult.Success)
                     {
                         foreach (var entry in emitResult.Diagnostics)
                         {
                             if (entry.WarningLevel == 0)
-                                Log.Debug( "ERROR:" + entry.GetMessage());
+                                Log.Debug("ERROR:" + entry.GetMessage());
                             else
                                 Log.Debug(entry.GetMessage());
                         }
@@ -138,16 +134,25 @@ namespace StartEditor
                     Log.Debug("emit Failed: " + e.Message);
                 }
             }
+
             return referencedAssemblies;
         }
 
-        /// <summary>
-        /// An attempt to define a fallback assembly folder through the call back event.
-        /// Sadly this doesn't work as of yet. 
-        /// </summary>
-        private static Module ModuleResolveEventHandler(object sender, ResolveEventArgs e)
+        
+        private static Assembly ModuleResolveEventHandler(object sender, ResolveEventArgs args)
         {
-            Log.Debug($"%%% CALLBACK {e.Name} {e.RequestingAssembly}");
+            Log.Debug($"AssemblyResolveCallback for {args.Name}");
+            if (args.Name.StartsWith("NDI", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var xxx = new AssemblyName(args.Name);
+                
+                var filePath = Path.Combine(Path.GetDirectoryName(Environment.ProcessPath), xxx.Name + ".dll");
+                Log.Debug($"> Try loading {filePath}");
+                var loadNdiAssemblyResult = Assembly.LoadFrom(filePath);
+                Log.Debug("> result " + loadNdiAssemblyResult);
+                return loadNdiAssemblyResult;
+            }
+
             return null;
         }
     }

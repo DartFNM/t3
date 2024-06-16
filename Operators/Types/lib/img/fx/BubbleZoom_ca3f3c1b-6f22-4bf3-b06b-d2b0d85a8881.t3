@@ -16,7 +16,7 @@
     },
     {
       "Id": "5bb5934d-28a8-4bd3-a146-f0ecb804170a"/*ScaleFactor*/,
-      "DefaultValue": 0.0
+      "DefaultValue": 1.0
     },
     {
       "Id": "1e93d2b1-d21c-44bd-a96c-9844b9a89c8f"/*Width*/,
@@ -24,7 +24,7 @@
     },
     {
       "Id": "064b98dc-60f8-4019-a40c-21cb3bed9f4a"/*Radius*/,
-      "DefaultValue": 0.0
+      "DefaultValue": 0.5
     },
     {
       "Id": "e5a5d0cf-447b-471f-871a-f3237a760df2"/*Bias*/,
@@ -33,8 +33,8 @@
     {
       "Id": "412055dc-88f7-4def-ac8e-76f7f424f905"/*Resolution*/,
       "DefaultValue": {
-        "Width": 0,
-        "Height": 0
+        "X": 0,
+        "Y": 0
       }
     },
     {
@@ -70,7 +70,7 @@
   ],
   "Children": [
     {
-      "Id": "523b7aec-d6f1-4982-8e10-02da1c410d89"/*Vector2ToFloat2*/,
+      "Id": "523b7aec-d6f1-4982-8e10-02da1c410d89"/*Vector2Components*/,
       "SymbolId": "0946c48b-85d8-4072-8f21-11d17cc6f6cf",
       "InputValues": [],
       "Outputs": []
@@ -82,7 +82,7 @@
         {
           "Id": "7f14d0e3-1159-434d-b038-74644948937c"/*ShaderPath*/,
           "Type": "System.String",
-          "Value": "Resources\\lib\\img\\fx\\img-fx-bubble-zooml.hlsl"
+          "Value": "Resources\\lib\\img\\fx\\BubbleZoom.hlsl"
         },
         {
           "Id": "a5cb5bda-0fb2-4863-bd8d-9ac09135fc30"/*WrapMode*/,

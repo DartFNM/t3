@@ -78,7 +78,7 @@
       "Outputs": []
     },
     {
-      "Id": "6e210196-c664-4949-b523-387b0ea50018"/*Float3ToVector3*/,
+      "Id": "6e210196-c664-4949-b523-387b0ea50018"/*Vector3*/,
       "SymbolId": "94a5de3b-ee6a-43d3-8d21-7b8fe94b042b",
       "InputValues": [],
       "Outputs": []
@@ -91,7 +91,7 @@
       "Outputs": []
     },
     {
-      "Id": "e85cd3b9-1ad9-4db4-ab9c-3fe45a6c2b16"/*AnimValue*/,
+      "Id": "e85cd3b9-1ad9-4db4-ab9c-3fe45a6c2b16"/*_AnimValueOld*/,
       "SymbolId": "c5e39c67-256f-4cb9-a635-b62a0d9c796c",
       "InputValues": [
         {
